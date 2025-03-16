@@ -6,4 +6,5 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
     id("com.android.library") version "7.4.2" apply false
     id("androidx.navigation.safeargs") version "2.8.9" apply false
+    id("com.google.dagger.hilt.android") version "2.50" apply false
 }

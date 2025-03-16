@@ -2,11 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-//    id("dagger.hilt.android.plugin")
-//    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
-
 }
 
 android {
@@ -61,10 +59,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//    val composeVersion = "1.5.3"
-//    val lifecycleVersion = "2.6.2"
-//    val roomVersion = "2.6.0"
-//    val hiltVersion = "2.55"
 
     // Dagger - Hilt
     implementation(libs.hilt.android)
