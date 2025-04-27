@@ -24,7 +24,11 @@ android {
 
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "WEATHER_API_KEY", "\"${properties.getValue("WEATHER_API_KEY")}\"")
+        buildConfigField(
+            "String",
+            "WEATHER_API_KEY",
+            "\"${properties.getValue("WEATHER_API_KEY")}\""
+        )
     }
 
     buildTypes {
@@ -71,6 +75,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)

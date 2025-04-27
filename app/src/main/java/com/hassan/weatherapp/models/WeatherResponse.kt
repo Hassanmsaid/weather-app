@@ -1,6 +1,6 @@
 package com.hassan.weatherapp.models
 
-data class Weather(
+data class WeatherResponse(
     val city: City,
     val cnt: Int = 0,
     val cod: String = "",

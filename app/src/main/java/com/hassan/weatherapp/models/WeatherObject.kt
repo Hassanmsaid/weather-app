@@ -9,7 +9,7 @@ data class WeatherObject(
     val feelsLike: FeelsLike,
     val speed: Double = 0.0,
     val dt: Int = 0,
-    val pop: Int = 0,
+    val pop: Double = 0.0,
     val sunset: Int = 0,
     val weather: List<WeatherItem>?,
     val humidity: Int = 0,
