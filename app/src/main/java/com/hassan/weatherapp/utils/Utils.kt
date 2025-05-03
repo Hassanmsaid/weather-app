@@ -13,3 +13,9 @@ fun formatDate(timestamp: Int): String {
 fun formatDecimal(value: Double): String {
     return String.format("%.1f", value)
 }
+
+fun formatTime(timestamp: Int): String {
+    val date = Date(timestamp * 1000L)
+    val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+    return format.format(date)
+}

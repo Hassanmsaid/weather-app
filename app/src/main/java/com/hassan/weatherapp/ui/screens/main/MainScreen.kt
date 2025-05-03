@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,6 +40,7 @@ import com.hassan.weatherapp.ui.widgets.MainAppbar
 import com.hassan.weatherapp.utils.AppColors
 import com.hassan.weatherapp.utils.formatDate
 import com.hassan.weatherapp.utils.formatDecimal
+import com.hassan.weatherapp.utils.formatTime
 
 @Composable
 fun MainScreen(navController: NavController, mainViewModel: MainViewModel = hiltViewModel()) {
@@ -79,12 +82,19 @@ fun MainContent(weatherData: WeatherResponse) {
     ) {
         Text(
             text = formatDate(weatherData.list!!.first().dt),
-            style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black),
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = Color.Black,
+                fontWeight = W500
+            ),
         )
         Spacer(Modifier.height(10.dp))
         WeatherInfoCircle(weatherData)
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(20.dp))
         HumidityWindRow(weatherData)
+        Spacer(Modifier.height(10.dp))
+        HorizontalDivider()
+        Spacer(Modifier.height(10.dp))
+        SunRow(weatherData)
     }
 }
 
@@ -144,6 +154,30 @@ fun HumidityWindRow(weatherData: WeatherResponse) {
             )
             Spacer(Modifier.width(3.dp))
             Text("${weatherData.list!!.first().speed}km/h")
+        }
+    }
+}
+
+@Composable
+fun SunRow(weatherData: WeatherResponse) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row {
+            Icon(
+                painter = painterResource(R.drawable.sunrise),
+                contentDescription = "sunrise",
+                Modifier.size(30.dp),
+            )
+            Spacer(Modifier.width(3.dp))
+            Text(formatTime(weatherData.list!!.first().sunrise))
+        }
+        Row {
+            Icon(
+                painter = painterResource(R.drawable.sunset),
+                contentDescription = "sunset",
+                Modifier.size(30.dp),
+            )
+            Spacer(Modifier.width(3.dp))
+            Text(formatTime(weatherData.list!!.first().sunset))
         }
     }
 }
