@@ -10,7 +10,7 @@ import com.hassan.weatherapp.ui.screens.splash.SplashScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.SplashScreen.name) {
+    NavHost(navController = navController, startDestination = AppScreens.MainScreen.name) {
         composable(route = AppScreens.SplashScreen.name) {
             SplashScreen(navController)
         }
