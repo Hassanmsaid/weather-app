@@ -523,14 +523,16 @@ fun WeatherDetailRow(weatherObject: WeatherObject) {
             ) {
                 Text(
                     formatDecimal(weatherObject.temp.min) + "º", style = TextStyle(
-                        fontWeight = FontWeight.Bold, color = AppColors.blueColor
+                        fontWeight = FontWeight.Bold, color = AppColors.blueColor,
+                        fontSize = 18.sp
                     )
                 )
                 Text(" ")
                 Text(
                     formatDecimal(weatherObject.temp.max) + "º",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold, color = AppColors.blueColor
+                        fontWeight = FontWeight.Bold, color = AppColors.greyColor,
+                        fontSize = 18.sp
                     ),
 //                    textAlign = TextAlign.Center,
                 )
