@@ -34,22 +34,20 @@ import kotlinx.coroutines.delay
 @Preview(showBackground = true)
 @Composable
 fun SplashScreen(navController: NavController = rememberNavController()) {
-    val scale = remember {
-        Animatable(0f)
-    }
+    val defaultCity = "Dubai"
+    val scale = remember { Animatable(0f) }
+
     LaunchedEffect(
         key1 = true,
         block = {
             scale.animateTo(
                 targetValue = 0.9f, animationSpec = tween(
-                    durationMillis = 800,
-                    easing = {
+                    durationMillis = 800, easing = {
                         OvershootInterpolator(6f).getInterpolation(it)
-                    }
-                )
+                    })
             )
             delay(timeMillis = 2000)
-            navController.navigate(AppScreens.MainScreen.name)
+            navController.navigate(AppScreens.MainScreen.name + "/$defaultCity")
         },
     )
     Surface(

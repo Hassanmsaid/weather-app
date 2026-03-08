@@ -23,7 +23,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,7 +48,9 @@ import com.hassan.weatherapp.R
 import com.hassan.weatherapp.data.DataOrException
 import com.hassan.weatherapp.models.WeatherObject
 import com.hassan.weatherapp.models.WeatherResponse
+import com.hassan.weatherapp.navigation.AppScreens
 import com.hassan.weatherapp.ui.widgets.CustomNetworkImage
+import com.hassan.weatherapp.ui.widgets.ErrorWidget
 import com.hassan.weatherapp.ui.widgets.MainAppbar
 import com.hassan.weatherapp.utils.AppColors
 import com.hassan.weatherapp.utils.AppColors.lightGreyColor
@@ -54,14 +60,24 @@ import com.hassan.weatherapp.utils.formatTime
 import com.hassan.weatherapp.utils.getWeekdayFromTimestamp
 
 @Composable
-fun MainScreen(navController: NavController, mainViewModel: MainViewModel = hiltViewModel()) {
+fun MainScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel(),
+    city: String = "Dubai"
+) {
+    println("MainScreen: $city")
+
+    var refreshTrigger by remember { mutableIntStateOf(0) }
+
     val weatherData = produceState<DataOrException<WeatherResponse, Boolean, Exception>>(
-        initialValue = DataOrException(null, true, null),
+        initialValue = DataOrException(null, true, null), key1 = refreshTrigger
     ) {
-        value = mainViewModel.getWeatherData("dubai")
+        value = mainViewModel.getWeatherData(city)
     }.value
     if (weatherData.loading == true) CircularProgressIndicator()
-    else MainScaffold(navController, weatherData.data!!)
+    else if (weatherData.e != null) {
+        ErrorWidget(error = weatherData.e.toString(), onTryAgain = { refreshTrigger++ })
+    } else MainScaffold(navController, weatherData.data!!)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -71,9 +87,11 @@ fun MainScaffold(navController: NavController, weatherData: WeatherResponse) {
         topBar = {
             MainAppbar(
                 title = "${weatherData.city.name}, ${weatherData.city.country}",
-                elevation = 2.dp,
-            )
-        }) { p ->
+                elevation = 15.dp,
+            ) {
+                navController.navigate(AppScreens.SearchScreen.name)
+            }
+        }) { _ ->
         Column(
             Modifier
                 .padding(0.dp)
@@ -84,12 +102,32 @@ fun MainScaffold(navController: NavController, weatherData: WeatherResponse) {
     }
 }
 
+//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//@Preview
+//@Composable
+//fun MainScaffoldd() {
+//    Scaffold(
+//        topBar = {
+//            MainAppbar(
+//                title = "Dubai, UAE",
+//                elevation = 15.dp,
+//            )
+//        }) { p ->
+//        Column(
+//            Modifier
+//                .padding(0.dp)
+//                .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//
+//        }
+//    }
+//}
+
 @Preview(showBackground = true)
 @Composable
 fun MainContent(
-    weatherData: WeatherResponse =
-        Gson().fromJson(
-            """
+    weatherData: WeatherResponse = Gson().fromJson(
+        """
                         {
                         "city": {
                         "id": 360630,
@@ -347,7 +385,7 @@ fun MainContent(
                         ]
                         }
                     """.trimIndent(), WeatherResponse::class.java
-        )
+    )
 ) {
     Column(
         Modifier
@@ -480,8 +518,7 @@ fun SunRow(weatherData: WeatherResponse) {
 @Composable
 fun WeatherDetailRow(weatherObject: WeatherObject) {
     Surface(
-        shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
-        color = lightGreyColor
+        shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp), color = lightGreyColor
     ) {
         Row(
             Modifier
@@ -523,16 +560,14 @@ fun WeatherDetailRow(weatherObject: WeatherObject) {
             ) {
                 Text(
                     formatDecimal(weatherObject.temp.min) + "º", style = TextStyle(
-                        fontWeight = FontWeight.Bold, color = AppColors.blueColor,
-                        fontSize = 18.sp
+                        fontWeight = FontWeight.Bold, color = AppColors.blueColor, fontSize = 18.sp
                     )
                 )
                 Text(" ")
                 Text(
                     formatDecimal(weatherObject.temp.max) + "º",
                     style = TextStyle(
-                        fontWeight = FontWeight.Bold, color = AppColors.greyColor,
-                        fontSize = 18.sp
+                        fontWeight = FontWeight.Bold, color = AppColors.greyColor, fontSize = 18.sp
                     ),
 //                    textAlign = TextAlign.Center,
                 )
