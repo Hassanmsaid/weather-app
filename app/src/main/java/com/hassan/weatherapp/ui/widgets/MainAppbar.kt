@@ -69,7 +69,7 @@ fun MainAppbar(
                 IconButton(onClick = { onButtonClicked.invoke() }) {
                     Icon(Icons.Default.Search, contentDescription = "search")
                 }
-                IconButton(onClick = { showDialog.value = !showDialog.value }) {
+                IconButton(onClick = { showDialog.value = true }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "more")
                 }
             }
@@ -105,25 +105,31 @@ fun ShowSettingsMenu(
     ) {
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false },
+            onDismissRequest = {
+                expanded = false
+                showDialog.value = false
+            },
             modifier = Modifier
                 .width(140.dp)
                 .background(Color.White)
         ) {
             items.fastForEach { item ->
-                DropdownMenuItem(onClick = {
-                    expanded = false
-                    showDialog.value = false
-                }, text = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.text
-                        )
-                        Spacer(Modifier.width(5.dp))
-                        Text(item.text, style = TextStyle(color = Black))
-                    }
-                })
+                DropdownMenuItem(
+                    onClick = {
+                        expanded = false
+                        showDialog.value = false
+                    },
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.text
+                            )
+                            Spacer(Modifier.width(5.dp))
+                            Text(item.text, style = TextStyle(color = Black))
+                        }
+                    },
+                )
             }
         }
     }
