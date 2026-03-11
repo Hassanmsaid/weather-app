@@ -3,5 +3,8 @@ package com.hassan.weatherapp.navigation
 enum class AppScreens {
     SplashScreen,
     MainScreen,
-    SearchScreen
+    SearchScreen,
+    SettingsScreen,
+    FavoritesScreen,
+    AboutScreen
 }

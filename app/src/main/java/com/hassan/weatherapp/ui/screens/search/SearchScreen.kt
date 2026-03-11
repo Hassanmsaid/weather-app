@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -26,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.hassan.weatherapp.navigation.AppScreens
+import com.hassan.weatherapp.ui.screens.ScreenLayout
 import com.hassan.weatherapp.ui.widgets.CustomTextField
 import com.hassan.weatherapp.ui.widgets.MainAppbar
 
@@ -33,20 +33,17 @@ import com.hassan.weatherapp.ui.widgets.MainAppbar
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview(showBackground = true)
 fun SearchScreen(navController: NavController = rememberNavController()) {
-    Scaffold(
-        topBar = {
+    ScreenLayout(
+        appBar = {
             MainAppbar(
                 title = "Search",
                 isMainScreen = false,
                 icon = Icons.AutoMirrored.Default.ArrowBack,
                 onButtonClicked = { navController.popBackStack() })
         },
-    ) { paddingValues ->
+    ) {
         Surface(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = 12.dp)
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 SearchBar(

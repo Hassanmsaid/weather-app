@@ -2,6 +2,7 @@ package com.hassan.weatherapp.ui.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,12 +37,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.hassan.weatherapp.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
@@ -49,21 +52,22 @@ import androidx.navigation.compose.rememberNavController
 fun MainAppbar(
     title: String = "Hello",
     icon: ImageVector? = null,
-    elevation: Dp = 0.dp,
-    isMainScreen: Boolean = true,
+    elevation: Dp = 15.dp,
+    isMainScreen: Boolean = false,
+    navController: NavController = rememberNavController(),
     onButtonClicked: () -> Unit = {},
 ) {
     val showDialog = remember {
         mutableStateOf(false)
     }
     if (showDialog.value) {
-        ShowSettingsMenu(showDialog = showDialog, navController = rememberNavController())
+        ShowSettingsMenu(showDialog = showDialog, navController = navController)
     }
     TopAppBar(
         modifier = Modifier
-            .padding(4.dp)
+            .padding(0.dp)
             .shadow(elevation = elevation),
-        title = { Text(title) },
+        title = { Text("  $title") },
         actions = {
             if (isMainScreen) {
                 IconButton(onClick = { onButtonClicked.invoke() }) {
@@ -118,6 +122,13 @@ fun ShowSettingsMenu(
                     onClick = {
                         expanded = false
                         showDialog.value = false
+                        navController.navigate(
+                            when (item.text) {
+                                "About" -> AppScreens.AboutScreen.name
+                                "Favorites" -> AppScreens.FavoritesScreen.name
+                                else -> AppScreens.SettingsScreen.name
+                            }
+                        )
                     },
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {

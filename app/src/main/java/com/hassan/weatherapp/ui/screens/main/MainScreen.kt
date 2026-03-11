@@ -49,6 +49,7 @@ import com.hassan.weatherapp.data.DataOrException
 import com.hassan.weatherapp.models.WeatherObject
 import com.hassan.weatherapp.models.WeatherResponse
 import com.hassan.weatherapp.navigation.AppScreens
+import com.hassan.weatherapp.ui.screens.ScreenLayout
 import com.hassan.weatherapp.ui.widgets.CustomNetworkImage
 import com.hassan.weatherapp.ui.widgets.ErrorWidget
 import com.hassan.weatherapp.ui.widgets.MainAppbar
@@ -83,15 +84,16 @@ fun MainScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScaffold(navController: NavController, weatherData: WeatherResponse) {
-    Scaffold(
-        topBar = {
+    ScreenLayout(
+        appBar = {
             MainAppbar(
                 title = "${weatherData.city.name}, ${weatherData.city.country}",
-                elevation = 15.dp,
+                navController = navController,
+                isMainScreen = true
             ) {
                 navController.navigate(AppScreens.SearchScreen.name)
             }
-        }) { _ ->
+        }) {
         Column(
             Modifier
                 .padding(0.dp)
@@ -101,27 +103,6 @@ fun MainScaffold(navController: NavController, weatherData: WeatherResponse) {
         }
     }
 }
-
-//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-//@Preview
-//@Composable
-//fun MainScaffoldd() {
-//    Scaffold(
-//        topBar = {
-//            MainAppbar(
-//                title = "Dubai, UAE",
-//                elevation = 15.dp,
-//            )
-//        }) { p ->
-//        Column(
-//            Modifier
-//                .padding(0.dp)
-//                .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//
-//        }
-//    }
-//}
 
 @Preview(showBackground = true)
 @Composable
@@ -390,10 +371,9 @@ fun MainContent(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(top = 70.dp, start = 10.dp, end = 10.dp),
+            .padding(top = 20.dp, start = 10.dp, end = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(50.dp))
         Text(
             text = formatDate(weatherData.list!!.first().dt),
             style = MaterialTheme.typography.bodyMedium.copy(

@@ -6,8 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.hassan.weatherapp.ui.screens.about.AboutScreen
+import com.hassan.weatherapp.ui.screens.favorites.FavoritesScreen
 import com.hassan.weatherapp.ui.screens.main.MainScreen
 import com.hassan.weatherapp.ui.screens.search.SearchScreen
+import com.hassan.weatherapp.ui.screens.settings.SettingsScreen
 import com.hassan.weatherapp.ui.screens.splash.SplashScreen
 
 @Composable
@@ -34,6 +37,18 @@ fun AppNavigation() {
 
         composable(route = AppScreens.SearchScreen.name) {
             SearchScreen(navController)
+        }
+
+        composable(route = AppScreens.AboutScreen.name) {
+            AboutScreen(navController)
+        }
+
+        composable(route = AppScreens.SettingsScreen.name) {
+            SettingsScreen(navController)
+        }
+
+        composable(route = AppScreens.FavoritesScreen.name) {
+            FavoritesScreen(navController)
         }
     }
 }
