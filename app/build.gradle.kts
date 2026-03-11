@@ -108,9 +108,7 @@ dependencies {
     // AndroidX & Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
     implementation(libs.ui)
-//    implementation(libs.androidx.material)
     implementation(libs.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.ui.tooling)
