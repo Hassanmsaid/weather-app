@@ -18,10 +18,10 @@ interface WeatherDao {
     suspend fun addFavorite(favorite: Favorite)
 
     @Query("SELECT * from favorites where city = :city")
-    suspend fun getFavoriteById(city: String)
+    suspend fun getFavoriteById(city: String): Favorite
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateFavorite()
+    suspend fun updateFavorite(favorite: Favorite)
 
     @Query("DELETE from favorites")
     suspend fun removeAllFavorites()
