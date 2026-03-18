@@ -23,6 +23,7 @@ navigationCompose = "2.9.7"
 okhttp = "5.3.2"
 retrofit = "3.0.0"
 roomVersion = "2.8.4"
+material3 = "1.4.0"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -60,6 +61,7 @@ ui = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeVersion" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeVersion" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

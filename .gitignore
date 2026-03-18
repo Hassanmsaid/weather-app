@@ -16,3 +16,4 @@ local.properties
 .idea/copilot.data.migration*
 .idea/studiobot.xml
 .idea/swift-toolchain.xml
+/.idea/deviceManager.xml

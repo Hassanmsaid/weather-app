@@ -42,11 +42,11 @@ fun SplashScreen(navController: NavController = rememberNavController()) {
         block = {
             scale.animateTo(
                 targetValue = 0.9f, animationSpec = tween(
-                    durationMillis = 800, easing = {
+                    durationMillis = 80, easing = {
                         OvershootInterpolator(6f).getInterpolation(it)
                     })
             )
-            delay(timeMillis = 2000)
+            delay(timeMillis = 200)
             navController.navigate(AppScreens.MainScreen.name + "/$defaultCity")
         },
     )

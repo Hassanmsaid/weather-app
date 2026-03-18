@@ -1,5 +1,6 @@
 package com.hassan.weatherapp.utils
 
+import android.content.Context
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -35,4 +36,8 @@ fun getWeekdayFromTimestamp(timestamp: Int): String {
         Calendar.SATURDAY -> "Saturday"
         else -> "Unknown"
     }
+}
+
+fun loadJsonFromAssets(context: Context, fileName: String): String {
+    return context.assets.open(fileName).bufferedReader().use { it.readText() }
 }
