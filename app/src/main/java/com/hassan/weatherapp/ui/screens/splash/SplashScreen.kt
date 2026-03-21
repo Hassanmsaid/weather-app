@@ -47,7 +47,11 @@ fun SplashScreen(navController: NavController = rememberNavController()) {
                     })
             )
             delay(timeMillis = 200)
-            navController.navigate(AppScreens.MainScreen.name + "/$defaultCity")
+            navController.navigate("${AppScreens.MainScreen.name}/$defaultCity") {
+                popUpTo(AppScreens.SplashScreen.name) {
+                    inclusive = true
+                }
+            }
         },
     )
     Surface(
