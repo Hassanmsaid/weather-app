@@ -114,6 +114,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.ui.tooling)
     androidTestImplementation(libs.ui.test.junit4)
+    implementation(libs.androidx.datastore.preferences)
 
     // Testing
     testImplementation(libs.junit)

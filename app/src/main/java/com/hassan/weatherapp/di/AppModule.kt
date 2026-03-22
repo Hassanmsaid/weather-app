@@ -1,10 +1,13 @@
 package com.hassan.weatherapp.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import com.hassan.weatherapp.data.WeatherDao
 import com.hassan.weatherapp.data.WeatherDatabase
 import com.hassan.weatherapp.network.WeatherApi
+import com.hassan.weatherapp.repo.dataStore
 import com.hassan.weatherapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -40,4 +43,11 @@ object AppModule {
             .build()
             .create(WeatherApi::class.java)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = context.dataStore
 }
