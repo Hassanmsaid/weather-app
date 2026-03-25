@@ -71,7 +71,7 @@ fun MainScreen(
         key1 = refreshTrigger,
         key2 = unit
     ) {
-        value = mainViewModel.getWeatherData(city, unit!!)
+        value = mainViewModel.getWeatherData(city, unit)
     }.value
     if (weatherData.loading == true) CircularProgressIndicator()
     else if (weatherData.e != null) {

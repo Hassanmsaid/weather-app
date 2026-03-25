@@ -17,7 +17,7 @@ class SettingsRepo @Inject constructor(
 ) {
     private val measureUnit = stringPreferencesKey("measure_unit")
 
-    val measureUnitFlow = context.dataStore.data.map { it[measureUnit] }
+    val measureUnitFlow = context.dataStore.data.map { it[measureUnit] ?: MeasureUnit.Metric.name }
 
     suspend fun toggleMeasureUnit() {
         context.dataStore.edit {
