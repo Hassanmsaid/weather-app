@@ -10,9 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class WeatherRepo @Inject constructor(private val api: WeatherApi, val weatherDao: WeatherDao) {
-    suspend fun getWeather(cityName: String): DataOrException<WeatherResponse, Boolean, Exception> {
+    suspend fun getWeather(
+        cityName: String,
+        units: String
+    ): DataOrException<WeatherResponse, Boolean, Exception> {
         val response = try {
-            api.getWeather(query = cityName)
+            api.getWeather(query = cityName, units = units)
         } catch (e: Exception) {
             Log.e("Weather repo:", "getWeather: ", e)
             return DataOrException(e = e)

@@ -1,19 +1,12 @@
 package com.hassan.weatherapp.ui.screens.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -39,52 +32,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle.Companion.Italic
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.google.gson.Gson
-import com.hassan.weatherapp.R
 import com.hassan.weatherapp.data.DataOrException
 import com.hassan.weatherapp.models.Favorite
-import com.hassan.weatherapp.models.WeatherObject
 import com.hassan.weatherapp.models.WeatherResponse
 import com.hassan.weatherapp.navigation.AppScreens
 import com.hassan.weatherapp.ui.screens.ScreenLayout
 import com.hassan.weatherapp.ui.screens.favorites.FavoriteViewModel
-import com.hassan.weatherapp.ui.widgets.CustomNetworkImage
+import com.hassan.weatherapp.ui.screens.settings.SettingsViewModel
 import com.hassan.weatherapp.ui.widgets.ErrorWidget
 import com.hassan.weatherapp.ui.widgets.MainAppbar
-import com.hassan.weatherapp.utils.AppColors
 import com.hassan.weatherapp.utils.AppColors.lightGreyColor
 import com.hassan.weatherapp.utils.formatDate
-import com.hassan.weatherapp.utils.formatDecimal
-import com.hassan.weatherapp.utils.formatTime
-import com.hassan.weatherapp.utils.getWeekdayFromTimestamp
 import com.hassan.weatherapp.utils.loadJsonFromAssets
 
 @Composable
 fun MainScreen(
     navController: NavController,
     mainViewModel: MainViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
     city: String = "Dubai"
 ) {
     println("MainScreen: $city")
 
     var refreshTrigger by remember { mutableIntStateOf(0) }
+    val unit = settingsViewModel.unit.collectAsState().value
 
     val weatherData = produceState<DataOrException<WeatherResponse, Boolean, Exception>>(
-        initialValue = DataOrException(null, true, null), key1 = refreshTrigger
+        initialValue = DataOrException(null, true, null),
+        key1 = refreshTrigger,
+        key2 = unit
     ) {
-        value = mainViewModel.getWeatherData(city)
+        value = mainViewModel.getWeatherData(city, unit!!)
     }.value
     if (weatherData.loading == true) CircularProgressIndicator()
     else if (weatherData.e != null) {
@@ -108,8 +95,7 @@ fun MainScaffold(
         }
     }
     ScreenLayout(
-        snackBarHostState = snackBarHostState,
-        appBar = {
+        snackBarHostState = snackBarHostState, appBar = {
             MainAppbar(
                 title = "${weatherData.city.name}, ${weatherData.city.country}",
                 navController = navController,

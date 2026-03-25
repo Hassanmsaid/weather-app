@@ -10,18 +10,19 @@ import javax.inject.Inject
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 
+enum class MeasureUnit { Imperial, Metric }
+
 class SettingsRepo @Inject constructor(
     @param:ApplicationContext val context: Context,
 ) {
-    private val TEMP_UNIT = stringPreferencesKey("temp_unit")
+    private val measureUnit = stringPreferencesKey("measure_unit")
 
-    val tempUnitFlow = context.dataStore.data.map {
-        it[TEMP_UNIT]
-    }
+    val measureUnitFlow = context.dataStore.data.map { it[measureUnit] }
 
-    suspend fun toggleTempUnit() {
+    suspend fun toggleMeasureUnit() {
         context.dataStore.edit {
-            it[TEMP_UNIT] = if (it[TEMP_UNIT] == "F") "C" else "F"
+            it[measureUnit] =
+                if (it[measureUnit] == MeasureUnit.Imperial.name) MeasureUnit.Metric.name else MeasureUnit.Imperial.name
         }
     }
 }

@@ -40,14 +40,14 @@ fun SettingsScreen(
             }
         }) {
         SettingContent(
-            unit = viewModel.unit.collectAsState().value == "C",
-            onCheckedChanged = { viewModel.toggleTempUnit() })
+            checked = viewModel.isImperial.collectAsState().value,
+            onCheckedChanged = { viewModel.toggleMeasureUnit() })
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun SettingContent(unit: Boolean = true, onCheckedChanged: () -> Unit = {}) {
+fun SettingContent(checked: Boolean = true, onCheckedChanged: () -> Unit = {}) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,12 +60,12 @@ fun SettingContent(unit: Boolean = true, onCheckedChanged: () -> Unit = {}) {
                 )
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("CELSIUS")
+                Text("Metric")
                 Spacer(Modifier.width(13.dp))
                 Switch(
-                    checked = unit, onCheckedChange = { onCheckedChanged() })
+                    checked = checked, onCheckedChange = { onCheckedChanged() })
                 Spacer(Modifier.width(13.dp))
-                Text("FAHRENHEIT")
+                Text("Imperial")
             }
         }
     }
